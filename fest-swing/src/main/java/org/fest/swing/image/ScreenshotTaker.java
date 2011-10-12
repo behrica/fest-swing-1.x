@@ -39,7 +39,7 @@ import org.fest.util.VisibleForTesting;
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
-public class ScreenshotTaker {
+public class ScreenshotTaker implements IScreenshotTaker {
 
   /**
    * Extension of the image files containing the screenshots taken by instances of this class (png).

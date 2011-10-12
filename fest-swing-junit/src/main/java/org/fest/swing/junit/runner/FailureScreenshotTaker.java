@@ -15,15 +15,19 @@
  */
 package org.fest.swing.junit.runner;
 
-import static java.io.File.separator;
-import static java.util.logging.Level.WARNING;
-import static org.fest.swing.image.ImageFileExtensions.PNG;
-import static org.fest.util.Strings.*;
+import org.fest.swing.image.IScreenshotTaker;
+import org.fest.swing.image.NoopScreenshotTaker;
+import org.fest.swing.image.ScreenshotTaker;
 
+import java.awt.*;
 import java.io.File;
 import java.util.logging.Logger;
 
-import org.fest.swing.image.ScreenshotTaker;
+import static java.io.File.separator;
+import static java.util.logging.Level.WARNING;
+import static org.fest.swing.image.ImageFileExtensions.PNG;
+import static org.fest.util.Strings.concat;
+import static org.fest.util.Strings.quote;
 
 /**
  * Understands taking a screenshot of the desktop when a GUI test fails.
@@ -35,17 +39,17 @@ public class FailureScreenshotTaker {
   private static Logger logger = Logger.getAnonymousLogger();
 
   private final File imageFolder;
-  private final ScreenshotTaker screenshotTaker;
+  private final IScreenshotTaker screenshotTaker;
 
   /**
    * Creates a new </code>{@link FailureScreenshotTaker}</code>.
    * @param imageFolder the folder where screenshots will be saved to.
    */
   public FailureScreenshotTaker(File imageFolder) {
-    this(imageFolder, new ScreenshotTaker());
+    this(imageFolder,GraphicsEnvironment.isHeadless() ?  new NoopScreenshotTaker() : new ScreenshotTaker());
   }
 
-  FailureScreenshotTaker(File imageFolder, ScreenshotTaker screenshotTaker) {
+  FailureScreenshotTaker(File imageFolder, IScreenshotTaker screenshotTaker) {
     this.imageFolder = imageFolder;
     this.screenshotTaker = screenshotTaker;
   }
